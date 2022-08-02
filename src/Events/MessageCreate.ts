@@ -1,10 +1,15 @@
+import { Logger } from '../util/Logger';
+import { Bot } from '../Client/Client';
+import Event from '../Commands/Adapter/Event';
 import { Message } from 'discord.js';
-import { Bot } from 'src/Client/Client';
-import {BotEvent} from '../Interfaces/ICommand'
 
-class MessageCreate implements BotEvent{
-    constructor(private client:Bot){}
-    public async run(args: any[]): Promise<unknown> {
-        return
+export default class MessageCreate extends Event{
+
+    constructor(protected client:Bot){
+        super(client)
+    }
+
+    async run(message:Message):Promise<void> {
+        message.channel.send("test")
     }
 }

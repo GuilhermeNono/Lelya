@@ -11,6 +11,7 @@ import dotenv from 'dotenv';
 import { ActionManager } from '../Config/ActionManager';
 import { Logger } from '../util/Logger';
 import Command from '../Commands/Adapter/Command';
+import Event from '../Commands/Adapter/Event';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ export class Bot extends DiscordClient implements BotClient{
     public settings:BotSettings;
 
     constructor(private actionManager: ActionManager) {
-        super({intents:'GuildMessages'})
+        super(settings.clientOptions)
         this.settings = settings;
         this.settings.token = process.env["DISCORD_TOKEN"]
         this.init();
@@ -42,5 +43,8 @@ export class Bot extends DiscordClient implements BotClient{
 
     public get commands():Collection<string, Command> {
         return this.actionManager.commands
+    }
+    public get events():Collection<string, Event> {
+        return this.actionManager.events
     }
 }

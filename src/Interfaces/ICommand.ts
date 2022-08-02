@@ -33,7 +33,7 @@ export interface UserCooldown {
 }
 
 export interface BotEvent {
-    run(...args: any[]): Promise<unknown>;
+    run(...args: any[]): Promise<void>;
 }
 
 export type EmbedOrMessage = EmbedBuilder | string;

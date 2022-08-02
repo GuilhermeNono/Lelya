@@ -1,11 +1,13 @@
 
 import { Bot } from '../Client/Client';
 import { Logger } from '../util/Logger';
-import {BotEvent} from '../Interfaces/ICommand'
+import Event from '../Commands/Adapter/Event';
 
-export default class Ready implements BotEvent{
+export default class Ready extends Event{
 
-    constructor(private client:Bot){}
+    constructor(protected client:Bot){
+        super(client)
+    }
 
     public async run():Promise<void> {
         if(this.client.user) {
