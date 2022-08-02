@@ -10,7 +10,7 @@
 
 ### 📓 To-do list
 
-- [x] Develop the base of bot.
+- [x] Develop the base.
 
 ### 🗜️ Functionalities
 
