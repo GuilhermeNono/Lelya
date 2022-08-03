@@ -1,5 +1,5 @@
 
-import { BotClient, BotSettings } from '../Interfaces/ICommand';
+import { BotClient, BotSettings } from '../Interfaces/IConfigs';
 import EndsWithAny from '../lib/functions/endsWithAny';
 import {Collection, Client  as DiscordClient} from 'discord.js'
 import { readdirSync } from 'fs';
@@ -10,8 +10,8 @@ import { settings } from '../Config/configBot';
 import dotenv from 'dotenv';
 import { ActionManager } from '../Config/ActionManager';
 import { Logger } from '../util/Logger';
-import Command from '../Commands/Adapter/Command';
-import Event from '../Commands/Adapter/Event';
+import Command from '../Core/Command';
+import Event from '../Core/Event';
 
 dotenv.config();
 
@@ -32,6 +32,7 @@ export class Bot extends DiscordClient implements BotClient{
         try {
             this.actionManager.InitializeCommands(this);
             this.actionManager.InitializeEvents(this);
+            this.actionManager.InitializeDatabase();
             Logger.warn(`Authenticating token...🛠️`)
             await this.login(this.settings.token);
             Logger.info(`Token Authenticated!🗝️`)

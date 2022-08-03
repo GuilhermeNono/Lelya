@@ -1,19 +1,27 @@
 import { Bot } from "../Client/Client";
-import Command from "../Commands/Adapter/Command";
+import Command from "../Core/Command";
 import { Logger } from "../util/Logger";
 import { Collection } from "discord.js";
 import "reflect-metadata";
 import { readdir, statSync } from "fs";
 import { join } from "path";
 import { Service } from "typedi";
-import Event from "../Commands/Adapter/Event";
+import Event from "../Core/Event";
+import { Settings } from "./configDB"
+import { connect } from "mongoose";
+import { DBSettings } from "src/Interfaces/IConfigs";
+
 
 @Service()
 export class ActionManager {
+
+  private dbSettings: DBSettings = Settings;
+
   public commands: Collection<string, Command> = new Collection<
     string,
     Command
   >();
+
   public events: Collection<string, Event> = new Collection<string, Event>();
 
   public InitializeCommands(client: Bot): void {
@@ -40,7 +48,7 @@ export class ActionManager {
           }
         } catch (error) {
           return Logger.error(
-            `❌ LOADING FAILURE - Failed to load folder "${commands}" in file "${file}". ❌`
+            `❌ LOADING FAILURE - Failed to load folder "${commands}" in file "${file}". ❌ -> ${error}`
           );
         }
       });
@@ -78,11 +86,19 @@ export class ActionManager {
           }
         } catch (error) {
           return Logger.error(
-            `❌ LOADING FAILURE - Failed to load folder "${events}" in file "${file}". ❌`
+            `❌ LOADING FAILURE - Failed to load folder "${events}" in file "${file}". ❌ -> ${error}`
           );
         }
       });
     });
     Logger.info("Events loaded without any error. ✔");
+  }
+
+  public InitializeDatabase(): void { 
+    Logger.warn("⌛ Initializing Database connection...⌛")
+    connect(`${this.dbSettings.MongoURI}`).then(() => Logger.info("Database Connected. ✔")).catch(err => {
+      Logger.error("❌ Connection Failed -> " + err);
+      throw err
+    });
   }
 }

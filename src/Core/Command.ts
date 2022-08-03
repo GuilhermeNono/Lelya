@@ -1,5 +1,5 @@
-import { Bot } from "../../Client/Client";
-import { CommandOptions, EmbedOrMessage, UserCooldown } from "../../Interfaces/ICommand";
+import { Bot } from "../Client/Client";
+import { CommandOptions, EmbedOrMessage, UserCooldown } from "../Interfaces/IConfigs";
 import { Guild, Message, TextBasedChannel, User} from "discord.js";
 
 

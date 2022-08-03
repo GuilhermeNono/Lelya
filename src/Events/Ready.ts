@@ -1,7 +1,7 @@
 
 import { Bot } from '../Client/Client';
 import { Logger } from '../util/Logger';
-import Event from '../Commands/Adapter/Event';
+import Event from '../Core/Event';
 
 export default class Ready extends Event{
 

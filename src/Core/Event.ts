@@ -1,4 +1,4 @@
-import { Bot } from "../../Client/Client";
+import { Bot } from "../Client/Client";
 
 
 export default abstract class Event {

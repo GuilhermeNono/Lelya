@@ -1,6 +1,9 @@
-import { BotSettings } from "../Interfaces/ICommand";
+import { BotSettings } from "../Interfaces/IConfigs";
 import { ActivityType, Partials } from "discord.js";
+import * as dotenv from 'dotenv'
+dotenv.config();
 
+      
 export const settings: BotSettings = {
   presence: {
     status: "idle",

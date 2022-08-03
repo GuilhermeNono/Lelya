@@ -1,6 +1,5 @@
-import Command from "../Commands/Adapter/Command";
-import { BaseGuildTextChannel, ChannelType, Client, ClientOptions, Collection, DMChannel, EmbedBuilder, Guild, NewsChannel, PermissionsString, PresenceData, TextBasedChannelMixin, TextChannel, User } from "discord.js";
-import { Bot } from "src/Client/Client";
+import { Client, ClientOptions, Collection, EmbedBuilder, Guild, PermissionsString, PresenceData, User } from "discord.js";
+import Command from "../Core/Command";
 
 export interface BotClient extends Client {
     settings: BotSettings;
@@ -16,6 +15,10 @@ export interface BotSettings {
         commands:string;
         events:string;
     }
+}
+
+export interface DBSettings {
+    MongoURI: string;
 }
 
 export interface CommandOptions {
