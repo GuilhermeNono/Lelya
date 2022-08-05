@@ -3,7 +3,8 @@ import { Bot } from "../Client/Client";
 import Event from "../Core/Event";
 import { Message } from "discord.js";
 import { GuildModel } from "../Model/Guild";
-import { BotSettings } from "src/Interfaces/IConfigs";
+import { BotSettings } from "../Interfaces/IConfigs";
+import DatabaseCreator from "../util/DatabaseCreator";
 
 export default class MessageCreate extends Event {
 
@@ -28,6 +29,7 @@ export default class MessageCreate extends Event {
           const prefix = await this.getPrefix(message);
 
           if(prefix !== this.client.settings.prefix) {
+            if(!prefix) return
             this.client.settings.prefix = prefix;
           }
       
@@ -57,24 +59,33 @@ export default class MessageCreate extends Event {
         guildID: message.guildId,
       }).exec();
 
-      //TODO: Create a class for creating a new Table in database
-      if (!guildDB) return;
+      if (!guildDB) {
+        const databaseCreator = new DatabaseCreator(message);
+        if(!(await databaseCreator.guildSchema())) return
+      };
 
-      if (guildDB.isAuthorized){
+      if (guildDB!.isAuthorized){
         callback();
       } else {
         message.channel.send("🚫 Servidor SEM AUTORIZAÇÃO. Por favor, entre em contato com os desenvolvedores para mais informações. 🚫")
       }
   }
 
-  private async getPrefix(message:Message): Promise<string> {
+  private async getPrefix(message:Message): Promise<string | undefined> {
     const guildDB = await GuildModel.findOne({
         guildID: message.guildId,
       }).exec();
       
-      if (!guildDB) throw 'Banco de dados Inexistente, logo não é possivel adquirir o prefix para comandos.';
+      if (!guildDB) {
 
-      return guildDB.prefix
+        const databaseCreator = new DatabaseCreator(message);
+        
+        if(!(await databaseCreator.guildSchema())) return
+        Logger.error('Banco de dados Inexistente, logo não é possivel adquirir o prefix para comandos.')
+        message.channel.send("🚫 Servidor SEM AUTORIZAÇÃO. Por favor, entre em contato com os desenvolvedores para mais informações. 🚫")
+      } else {
+        return guildDB!.prefix
+      };
  
   }
 }

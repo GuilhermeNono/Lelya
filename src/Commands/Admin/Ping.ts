@@ -19,15 +19,6 @@ export default class Ping extends Command {
 
     public async run(client: Bot, message: Message<boolean>, args: string[]): Promise<void> {
         await message.channel.send("Pong");
-        // const doc = new GuildModel({
-        //     guildID: message.guildId,
-        //     ownerGuildID: message.guild?.ownerId,
-        //     isAuthorized: true,
-        //     prefix: ".",
-        //     privateChannelID: "895804389632131083",
-        //     publicChannelID: "895804389632131083"
-        // })
 
-        // doc.save().then(() => message.react('💚'));
     }
 }
