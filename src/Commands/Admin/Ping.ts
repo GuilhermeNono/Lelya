@@ -1,7 +1,6 @@
 import { Bot } from "../../Client/Client";
 import { Message } from "discord.js";
 import Command from "../../Core/Command";
-import { GuildModel } from "../../Model/Guild";
 
 
 export default class Ping extends Command {
@@ -19,6 +18,5 @@ export default class Ping extends Command {
 
     public async run(client: Bot, message: Message<boolean>, args: string[]): Promise<void> {
         await message.channel.send("Pong");
-
     }
 }

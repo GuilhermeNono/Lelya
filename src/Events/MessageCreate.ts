@@ -81,7 +81,6 @@ export default class MessageCreate extends Event {
         const databaseCreator = new DatabaseCreator(message);
         
         if(!(await databaseCreator.guildSchema())) return
-        Logger.error('Banco de dados Inexistente, logo não é possivel adquirir o prefix para comandos.')
         message.channel.send("🚫 Servidor SEM AUTORIZAÇÃO. Por favor, entre em contato com os desenvolvedores para mais informações. 🚫")
       } else {
         return guildDB!.prefix
