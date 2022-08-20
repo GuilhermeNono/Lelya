@@ -33,18 +33,18 @@ export default class MessageCreate extends Event {
             this.client.settings.prefix = prefix;
           }
       
-          const command = args.shift()!.slice(this.client.settings.prefix.length);
+          const command = args.shift()!.slice(this.client.settings.prefix.length).toLowerCase();
 
           if(!message.content.startsWith(this.client.settings.prefix)) return 
       
           const commandOnClient = this.client.commands.get(command);
-      
+
           if (!commandOnClient) return;
           if (!commandOnClient.canRun(message.author, message)) return;
       
-          this.isAuthorizedGuild(message, async () => {
+          await this.isAuthorizedGuild(message, async () => {
             await commandOnClient.run(this.client, message, args);
-      
+
             if (message.guild)
               commandOnClient.setCooldown(message.author, message.guild);
           })
@@ -84,7 +84,7 @@ export default class MessageCreate extends Event {
         message.channel.send("🚫 Servidor SEM AUTORIZAÇÃO. Por favor, entre em contato com os desenvolvedores para mais informações. 🚫")
       } else {
         return guildDB!.prefix
-      };
+      }
  
   }
 }

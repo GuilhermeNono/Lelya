@@ -44,7 +44,7 @@ export class ActionManager {
 
             const command = new Command(client);
 
-            this.commands.set(command.conf.name, command);
+            this.commands.set(command.conf.name.toLowerCase(), command);
           }
         } catch (error) {
           return Logger.error(

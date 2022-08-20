@@ -11,12 +11,12 @@ export default class Ping extends Command {
             cooldown: 1000,
             requiredPermissions: ["SendMessages"],
             category: "Information",
-            usage: client.settings.prefix?.concat('ping'),
+            usage: client.settings.prefix?.concat('Ping'),
             description: "Espera o 'pong' como retorno do bot."
         });
     }
 
-    public async run(client: Bot, message: Message<boolean>, args: string[]): Promise<void> {
+    public async run(client: Bot, message: Message, args: string[]): Promise<void> {
         await message.channel.send("Pong");
     }
 }

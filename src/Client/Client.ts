@@ -1,9 +1,6 @@
 
 import { BotClient, BotSettings } from '../Interfaces/IConfigs';
-import EndsWithAny from '../lib/functions/endsWithAny';
 import {Collection, Client  as DiscordClient} from 'discord.js'
-import { readdirSync } from 'fs';
-import path from 'path';
 import 'reflect-metadata'
 import { Service } from 'typedi';
 import { settings } from '../Config/configBot';

@@ -8,7 +8,7 @@ export default abstract class Command {
     public conf: CommandOptions;
     public cooldowns:Set<UserCooldown>
 
-    constructor(protected client: Bot, options: CommandOptions){
+    protected constructor(protected client: Bot, options: CommandOptions){
         //TODO:Add alliases commands
         this.conf = {
             name:options.name,
