@@ -1,8 +1,9 @@
 import { Message } from "discord.js";
 import mongoose from "mongoose";
-import { IGuildSchema } from "../Interfaces/IDatabase";
+import {IGuildSchema, IProfileSchema} from "../Interfaces/IDatabase";
 import { GuildModel } from "../Model/Guild";
 import { Logger } from "./Logger";
+import {ProfileModel} from "../Model/Profile";
 
 export default class DatabaseCreator{
   private message: Message<boolean>;
@@ -53,6 +54,21 @@ export default class DatabaseCreator{
     } catch (error) {
         Logger.error(`Erro ao buscar o GuildId -> ${error}`)
         return false
+    }
+  }
+
+  public async profileSchema(ProfileSchemaOptions: IProfileSchema):Promise<boolean> {
+    try {
+      const doc = new ProfileModel({
+        name: ProfileSchemaOptions.name,
+        roles: ProfileSchemaOptions.roles ? ProfileSchemaOptions.roles : []
+      });
+
+      await doc.save();
+      return true;
+    } catch (error) {
+      Logger.error(`Erro ao criar o GuildSchema -> ${error}`);
+      return false;
     }
   }
 }
