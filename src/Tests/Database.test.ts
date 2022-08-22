@@ -1,12 +1,9 @@
 import {
     connectDBForTesting,
     disconnectDBForTesting,
-} from "./ConnectingDBForTest";
+} from "./util/ConnectingDBForTest";
 
 import {GuildModel} from "../Model/Guild";
-
-import faker from "@faker-js/faker";
-import {prop} from "@typegoose/typegoose";
 
 describe("guildModel Testing", () => {
     beforeAll(async () => {
@@ -72,19 +69,18 @@ describe("guildModel Testing", () => {
         expect(updatedGuild!.isAuthorized).toBe(doc.isAuthorized)
     })
 
-    // test('guildModel Delete Test', async () => {
-    //     const doc = new GuildModel({
-    //         guildID: "111111111111",
-    //         ownerGuildID: "2222222222222",
-    //         isAuthorized: true,
-    //         prefix: '.',
-    //         privateChannelID: '33333333333333333333',
-    //         publicChannelID: '4444444444444444444444',
-    //     })
-    //     await doc.save();
-    //
-    //     const deletedGuild = await GuildModel.findOneAndRemove({guildID: doc.guildID});
-    //     const findDeletedGuild = await GuildModel.findOne({guildID: doc.guildID});
-    //     expect(findDeletedGuild).toBeNull();
-    // })
+    test('guildModel Delete Test', async () => {
+        const doc = new GuildModel({
+            guildID: "111111111111",
+            ownerGuildID: "2222222222222",
+            isAuthorized: true,
+            prefix: '.',
+            privateChannelID: '33333333333333333333',
+            publicChannelID: '4444444444444444444444',
+        })
+        await doc.save();
+
+        const deletedGuild = await GuildModel.deleteOne({guildID: doc.guildID});
+        expect(deletedGuild.deletedCount).toBe(1);
+    })
 });
