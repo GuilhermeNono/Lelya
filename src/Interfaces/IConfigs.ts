@@ -28,6 +28,8 @@ export interface CommandOptions {
     category?: string;
     cooldown: number;
     requiredPermissions: PermissionsString[];
+    onlyMaster?: boolean;
+    //requiredRole: RolesLevelAlias[] | string[];
 }
 
 export interface UserCooldown {
