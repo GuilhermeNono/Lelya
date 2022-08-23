@@ -1,13 +1,13 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
 
-class Guild {
+export class Guild {
     @prop({required:true})
     public guildID!: string;
     @prop({required:true})
     public ownerGuildID!: string;
-    @prop({required:true})
+    @prop({required:true, default: false})
     public isAuthorized!:boolean;
-    @prop({required:true})
+    @prop({required:true, default: "."})
     public prefix!: string;
     @prop({required:true})
     public privateChannelID!:string;
