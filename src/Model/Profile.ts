@@ -1,10 +1,10 @@
-import {getModelForClass, prop, Ref} from "@typegoose/typegoose";
+import {getModelForClass, prop, Ref, Severity} from "@typegoose/typegoose";
 import {Guild} from "./Guild";
 
 class Profile {
     @prop({required:true})
     public name!:string;
-    @prop({default: []})
+    @prop({default: [], allowMixed:Severity.ALLOW})
     public roles?: string[];
 
     @prop({ref: () => Guild, required:true})
