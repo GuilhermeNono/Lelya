@@ -20,7 +20,6 @@ export const settings: BotSettings = {
     ],
     partials: [Partials.User, Partials.Message, Partials.GuildMember],
   },
-  //TODO: Deixar o 'prefix' conectado com o banco de dados
   prefix: ".",
   paths: {
     commands: "src/Commands/admin",
