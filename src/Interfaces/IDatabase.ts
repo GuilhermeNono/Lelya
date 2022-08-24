@@ -1,3 +1,5 @@
+import {RolesLevelAlias} from "../Types/RolesLevelAlias";
+
 export interface IGuildSchema {
     isAuthorized?: boolean;
     prefix?: string;
@@ -6,6 +8,6 @@ export interface IGuildSchema {
 }
 
 export interface IProfileSchema{
-    name: string;
+    name: RolesLevelAlias;
     roles?: string[];
 }
