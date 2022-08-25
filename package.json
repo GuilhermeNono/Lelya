@@ -8,6 +8,7 @@
     "start:dev": "ts-node-dev src/index.ts",
     "build": "yarn jest && tsc",
     "start:prod": "yarn migration:up && node dist/index.js",
+    "start:onlyjs": "node dist/index.js",
     "test": "yarn jest",
     "test:coverage": "yarn test --coverage",
     "migration:create": "ts-node src/shared/mongo-migrate.ts new --name",

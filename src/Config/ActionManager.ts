@@ -36,11 +36,7 @@ export class ActionManager {
           if (statSync(join(commands, file)).isDirectory()) {
             this.InitializeCommands(client);
           } else {
-            const Command: any = require(join(
-              __dirname,
-              "../../",
-              `${commands}/${file}`
-            )).default;
+            const Command: any = require(join(`${commands}/${file}`)).default;
 
             const command = new Command(client);
 
@@ -69,11 +65,7 @@ export class ActionManager {
           if (statSync(join(events, file)).isDirectory()) {
             this.InitializeCommands(client);
           } else {
-            const Event: any = require(join(
-              __dirname,
-              "../../",
-              `${events}/${file}`
-            )).default;
+            const Event: any = require(join(`${events}/${file}`)).default;
 
             const event = new Event(client);
             const eventName = event.constructor.name;
