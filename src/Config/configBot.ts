@@ -23,7 +23,7 @@ export const settings: BotSettings = {
   },
   prefix: ".",
   paths: {
-    commands: path.join(__dirname, "../Commands/Admin"),
+    commands: [path.join(__dirname, "../Commands/Admin"), path.join(__dirname, "../Commands/Config")],
     events: path.join(__dirname, "../Events"),
   },
 };

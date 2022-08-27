@@ -28,27 +28,29 @@ export class ActionManager {
     Logger.warn("⌛ Initializing Commands...⌛");
     const { commands } = client.settings.paths;
 
-    readdir(commands, (err, files) => {
-      if (err) Logger.error(err);
+    commands.forEach((commandPath) => {
+      readdir(commandPath, (err, files) => {
+        if (err) Logger.error(err);
 
-      files.forEach((file, i) => {
-        try {
-          if (statSync(join(commands, file)).isDirectory()) {
-            this.InitializeCommands(client);
-          } else {
-            const Command: any = require(join(`${commands}/${file}`)).default;
+        files.forEach((file, i) => {
+          try {
+            if (statSync(join(commandPath, file)).isDirectory()) {
+              this.InitializeCommands(client);
+            } else {
+              const Command: any = require(join(`${commandPath}/${file}`)).default;
 
-            const command = new Command(client);
+              const command = new Command(client);
 
-            this.commands.set(command.conf.name.toLowerCase(), command);
+              this.commands.set(command.conf.name.toLowerCase(), command);
+            }
+          } catch (error) {
+            return Logger.error(
+                `❌ LOADING FAILURE - Failed to load folder "${commandPath}" in file "${file}". ❌ -> ${error}`
+            );
           }
-        } catch (error) {
-          return Logger.error(
-            `❌ LOADING FAILURE - Failed to load folder "${commands}" in file "${file}". ❌ -> ${error}`
-          );
-        }
+        });
       });
-    });
+    })
     Logger.info("Commands loaded without any error. ✔");
   }
 

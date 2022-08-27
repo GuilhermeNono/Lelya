@@ -1,6 +1,7 @@
 import { Bot } from "../../Client/Client";
 import { Message } from "discord.js";
 import Command from "../../Core/Command";
+import {GuildUserModel} from "../../Model/GuildUser";
 
 
 export default class Ping extends Command {

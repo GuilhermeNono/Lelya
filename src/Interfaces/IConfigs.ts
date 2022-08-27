@@ -12,7 +12,7 @@ export interface BotSettings {
     token?: string;
     prefix: string;
     paths: {
-        commands:string;
+        commands:string[];
         events:string;
     }
 }

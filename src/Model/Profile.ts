@@ -8,7 +8,7 @@ class Profile {
     public roles?: string[];
 
     @prop({ref: () => Guild, required:true})
-    public guild__id!: Ref<Guild, string>
+    public guild__id!: Ref<Guild>
 }
 
 export const ProfileModel = getModelForClass(Profile)
