@@ -9,3 +9,8 @@ export interface IProfileSchema{
     name: string;
     roles?: string[];
 }
+
+export interface IUserSchema{
+    userId: string;
+    botSupervisor: boolean;
+}
