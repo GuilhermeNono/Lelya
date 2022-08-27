@@ -1,7 +1,7 @@
 import {getModelForClass, prop, Ref} from "@typegoose/typegoose";
 import {Guild} from "./Guild";
 import {User} from "./User";
-import {LastPunishment} from "./LastPunishment";
+import {PunishmentGuildUser} from "./PunishmentGuildUser";
 
 export class GuildUser {
     @prop({required: true, default: false})
@@ -19,8 +19,8 @@ export class GuildUser {
     public guildId!:Ref<Guild>;
     @prop({ref:() => User, required:true})
     public userId!: Ref<User>;
-    @prop({ref:()=> LastPunishment, required:true})
-    public lastPunishmentId!: Ref<LastPunishment>
+    @prop({ref:()=> PunishmentGuildUser, default: [], required:true})
+    public punishmentGuildUserId!: [Ref<PunishmentGuildUser>]
 }
 
 export const GuildUserModel = getModelForClass(GuildUser)
