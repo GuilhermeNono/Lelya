@@ -1,12 +1,12 @@
 import { Message } from "discord.js";
-import mongoose from "mongoose";
-import {IGuildSchema, IProfileSchema} from "../Interfaces/IDatabase";
+import {IGuildSchema, IProfileSchema, IUserSchema} from "../Interfaces/IDatabase";
 import { GuildModel } from "../Model/Guild";
 import { Logger } from "./Logger";
 import {ProfileModel} from "../Model/Profile";
+import {UserModel} from "../Model/User";
 
 export default class DatabaseCreator{
-  private message: Message<boolean>;
+  private message: Message;
 
   constructor(message: Message) {
     this.message = message;
@@ -71,4 +71,20 @@ export default class DatabaseCreator{
       return false;
     }
   }
+
+  public async userSchema(ProfileSchemaOptions: IUserSchema):Promise<boolean> {
+    try {
+      const doc = new UserModel({
+        userId: ProfileSchemaOptions.userId,
+        botSupervisor: ProfileSchemaOptions.botSupervisor
+      });
+
+      await doc.save();
+      return true;
+    } catch (error) {
+      Logger.error(`Erro ao criar o UserSchema -> ${error}`);
+      return false;
+    }
+  }
+
 }
