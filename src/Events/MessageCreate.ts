@@ -5,6 +5,7 @@ import { Message } from "discord.js";
 import { GuildModel } from "../Model/Guild";
 import { BotSettings } from "../Interfaces/IConfigs";
 import DatabaseCreator from "../util/DatabaseCreator";
+import {User, UserModel} from "../Model/User";
 
 export default class MessageCreate extends Event {
 
@@ -41,8 +42,11 @@ export default class MessageCreate extends Event {
 
           if (!commandOnClient) return;
           if (!commandOnClient.canRun(message.author, message)) return;
-      
+
+          const masterPermission = await this.userHaveMasterPermission(message);
+
           await this.isAuthorizedGuild(message, async () => {
+            if(!masterPermission) return;
             await commandOnClient.run(this.client, message, args);
 
             if (message.guild)
@@ -69,6 +73,26 @@ export default class MessageCreate extends Event {
       } else {
         message.channel.send("🚫 Servidor SEM AUTORIZAÇÃO. Por favor, entre em contato com os desenvolvedores para mais informações. 🚫")
       }
+  }
+
+  private async userHaveMasterPermission(message:Message): Promise<boolean> {
+
+    const userDB = await UserModel.findOne({
+      userId: message.author.id,
+    });
+
+    if (!userDB) {
+      const databaseCreator = new DatabaseCreator(message);
+      const userSchema = await databaseCreator.userSchema({userId:message.author.id, botSupervisor:false});
+      if(!userSchema) return false;
+    }
+
+    if (userDB!.botSupervisor){
+      return true
+    } else {
+      return false
+    }
+
   }
 
   private async getPrefix(message:Message): Promise<string | undefined> {
