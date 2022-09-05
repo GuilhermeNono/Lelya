@@ -20,7 +20,7 @@ export default class SetProfile extends Command {
 
     public async run(client: Bot, message: Message, args: string[]): Promise<void> {
 
-        await new DatabaseCreator(message).profileSchema({name:"ADMIN", roles:["595008072951267328"]});
+        // await new DatabaseCreator(message).profileSchema({name:"MODERATION", roles:["595008072951267328"]});
 
     }
 }
