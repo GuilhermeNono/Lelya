@@ -46,9 +46,8 @@ export default class MessageCreate extends Event {
           const masterPermission = await this.userHaveMasterPermission(message);
 
           await this.isAuthorizedGuild(message, async () => {
-            if(!masterPermission) return;
+            if(commandOnClient.conf.onlyMaster && !masterPermission) return console.log("123321");
             await commandOnClient.run(this.client, message, args);
-
             if (message.guild)
               commandOnClient.setCooldown(message.author, message.guild);
           })
