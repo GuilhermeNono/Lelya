@@ -12,7 +12,7 @@ export interface BotSettings {
     token?: string;
     prefix: string;
     paths: {
-        commands:string;
+        commands:string[];
         events:string;
     }
 }
@@ -28,6 +28,8 @@ export interface CommandOptions {
     category?: string;
     cooldown: number;
     requiredPermissions: PermissionsString[];
+    onlyMaster?: boolean;
+    //requiredRole: RolesLevelAlias[] | string[];
 }
 
 export interface UserCooldown {

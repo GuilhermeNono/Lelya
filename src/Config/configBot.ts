@@ -1,6 +1,7 @@
 import { BotSettings } from "../Interfaces/IConfigs";
 import { ActivityType, Partials } from "discord.js";
 import * as dotenv from 'dotenv'
+import path from "path";
 dotenv.config();
 
       
@@ -20,10 +21,9 @@ export const settings: BotSettings = {
     ],
     partials: [Partials.User, Partials.Message, Partials.GuildMember],
   },
-  //TODO: Deixar o 'prefix' conectado com o banco de dados
   prefix: ".",
   paths: {
-    commands: "src/Commands/admin",
-    events: "src/Events",
+    commands: [path.join(__dirname, "../Commands/Admin"), path.join(__dirname, "../Commands/Config")],
+    events: path.join(__dirname, "../Events"),
   },
 };

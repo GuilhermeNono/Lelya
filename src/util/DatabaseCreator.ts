@@ -1,11 +1,12 @@
 import { Message } from "discord.js";
-import mongoose from "mongoose";
-import { IGuildSchema } from "../Interfaces/IDatabase";
+import {IGuildSchema, IProfileSchema, IUserSchema} from "../Interfaces/IDatabase";
 import { GuildModel } from "../Model/Guild";
 import { Logger } from "./Logger";
+import {ProfileModel} from "../Model/Profile";
+import {UserModel} from "../Model/User";
 
 export default class DatabaseCreator{
-  private message: Message<boolean>;
+  private message: Message;
 
   constructor(message: Message) {
     this.message = message;
@@ -17,7 +18,7 @@ export default class DatabaseCreator{
     const getOwnerId = await this.getOwnerGuildId();
     const getGuildId = await this.getGuildId();
 
-    if(!getGuildId || !getOwnerId) return false
+    if(!getGuildId || !getOwnerId) return false;
 
     const doc = new GuildModel({
       guildID: getGuildId,
@@ -55,4 +56,52 @@ export default class DatabaseCreator{
         return false
     }
   }
+
+  public async profileSchema(ProfileSchemaOptions: IProfileSchema):Promise<boolean> {
+    try {
+
+      const guildDbId = await this.getGuildDbId(this.message.guildId!);
+      if(!guildDbId) return false;
+
+      const doc = new ProfileModel({
+        name: ProfileSchemaOptions.name,
+        roles: ProfileSchemaOptions.roles ? ProfileSchemaOptions.roles : [],
+        guild__id: guildDbId
+      });
+
+      await doc.save();
+      return true;
+    } catch (error) {
+      Logger.error(`Erro ao criar o GuildSchema -> ${error}`);
+      return false;
+    }
+  }
+
+  private async getGuildDbId(GuildId:string):Promise<string | boolean> {
+    try {
+      const docGuildDb = await GuildModel.findOne({guildID:GuildId}).exec();
+      if(!docGuildDb) throw "A guilda não existe no banco de dados."
+      return docGuildDb._id.toString()
+
+    } catch (error){
+      Logger.error(`GuildId Não foi encontrada -> ${error}`);
+      return false;
+    }
+  }
+
+  public async userSchema(ProfileSchemaOptions: IUserSchema):Promise<boolean> {
+    try {
+      const doc = new UserModel({
+        userId: ProfileSchemaOptions.userId,
+        botSupervisor: ProfileSchemaOptions.botSupervisor
+      });
+
+      await doc.save();
+      return true;
+    } catch (error) {
+      Logger.error(`Erro ao criar o UserSchema -> ${error}`);
+      return false;
+    }
+  }
+
 }

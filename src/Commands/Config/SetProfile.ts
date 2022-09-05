@@ -1,23 +1,26 @@
 import { Bot } from "../../Client/Client";
 import { Message } from "discord.js";
 import Command from "../../Core/Command";
-import {GuildUserModel} from "../../Model/GuildUser";
+import DatabaseCreator from "../../util/DatabaseCreator";
 
 
-export default class Ping extends Command {
+export default class SetProfile extends Command {
 
     constructor(client: Bot) {
         super(client, {
-            name: 'ping',
+            name: 'SetProfile',
             cooldown: 1000,
             requiredPermissions: ["SendMessages"],
             category: "Information",
             usage: client.settings.prefix?.concat('Ping'),
-            description: "Espera o 'pong' como retorno do bot."
+            description: "Espera o 'pong' como retorno do bot.",
+            onlyMaster: true
         });
     }
 
     public async run(client: Bot, message: Message, args: string[]): Promise<void> {
-        await message.channel.send("Pong");
+
+        // await new DatabaseCreator(message).profileSchema({name:"MODERATION", roles:["595008072951267328"]});
+
     }
 }
