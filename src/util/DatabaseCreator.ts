@@ -18,7 +18,7 @@ export default class DatabaseCreator{
     const getOwnerId = await this.getOwnerGuildId();
     const getGuildId = await this.getGuildId();
 
-    if(!getGuildId || !getOwnerId) return false
+    if(!getGuildId || !getOwnerId) return false;
 
     const doc = new GuildModel({
       guildID: getGuildId,
@@ -59,15 +59,32 @@ export default class DatabaseCreator{
 
   public async profileSchema(ProfileSchemaOptions: IProfileSchema):Promise<boolean> {
     try {
+
+      const guildDbId = await this.getGuildDbId(this.message.guildId!);
+      if(!guildDbId) return false;
+
       const doc = new ProfileModel({
         name: ProfileSchemaOptions.name,
-        roles: ProfileSchemaOptions.roles ? ProfileSchemaOptions.roles : []
+        roles: ProfileSchemaOptions.roles ? ProfileSchemaOptions.roles : [],
+        guild__id: guildDbId
       });
 
       await doc.save();
       return true;
     } catch (error) {
       Logger.error(`Erro ao criar o GuildSchema -> ${error}`);
+      return false;
+    }
+  }
+
+  private async getGuildDbId(GuildId:string):Promise<string | boolean> {
+    try {
+      const docGuildDb = await GuildModel.findOne({guildID:GuildId}).exec();
+      if(!docGuildDb) throw "A guilda não existe no banco de dados."
+      return docGuildDb._id.toString()
+
+    } catch (error){
+      Logger.error(`GuildId Não foi encontrada -> ${error}`);
       return false;
     }
   }
